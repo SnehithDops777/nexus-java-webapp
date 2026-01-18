@@ -1,0 +1,14 @@
+# Use a lightweight Tomcat 10 image with JDK 17
+FROM tomcat:10.1-jdk17
+
+# Remove default Tomcat webapps
+RUN rm -rf /usr/local/tomcat/webapps/*
+
+# Copy the WAR file from your local target folder to the container
+COPY target/nexus-app.war /usr/local/tomcat/webapps/ROOT.war
+
+# Copy your custom users file for security configuration
+COPY tomcat-users.xml /usr/local/tomcat/conf/tomcat-users.xml
+
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
